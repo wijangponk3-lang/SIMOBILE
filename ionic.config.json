@@ -1,7 +1,0 @@
-{
-  "name": "SIMOBILE",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
