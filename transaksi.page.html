@@ -1,0 +1,238 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Transaksi</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <!-- =========================
+       KERANJANG BELANJA
+       ========================= -->
+
+  <ion-list>
+
+    <ion-list-header>
+      <ion-label>
+        Keranjang Belanja
+      </ion-label>
+    </ion-list-header>
+
+
+    @for (item of cartItems; track item.product.id) {
+
+      <ion-item>
+
+        <!-- GAMBAR PRODUK -->
+        <div class="cart-image-container">
+
+          @if (item.product.image) {
+
+            <img
+              class="cart-image"
+              [src]="item.product.image"
+              [alt]="item.product.name">
+
+          } @else {
+
+            <img
+              class="cart-image"
+              src="assets/icon/favicon.png"
+              alt="Gambar default">
+
+          }
+
+        </div>
+
+
+        <!-- INFORMASI PRODUK -->
+        <ion-label>
+
+          <h2>
+            {{ item.product.name }}
+          </h2>
+
+          <p>
+            Harga:
+            Rp {{ item.product.sellPrice | number:'1.0-0' }}
+          </p>
+
+          <p>
+            Jumlah:
+            {{ item.quantity }}
+          </p>
+
+          <p>
+            Subtotal:
+            Rp {{ (item.product.sellPrice * item.quantity) | number:'1.0-0' }}
+          </p>
+
+        </ion-label>
+
+
+        <!-- KURANG -->
+        <ion-button
+          slot="end"
+          fill="clear"
+          (click)="decreaseQuantity(item.product.id)">
+
+          −
+
+        </ion-button>
+
+
+        <!-- JUMLAH -->
+        <ion-label class="quantity">
+
+          {{ item.quantity }}
+
+        </ion-label>
+
+
+        <!-- TAMBAH -->
+        <ion-button
+          slot="end"
+          fill="clear"
+          (click)="increaseQuantity(item.product.id)">
+
+          +
+
+        </ion-button>
+
+
+        <!-- HAPUS -->
+        <ion-button
+          slot="end"
+          color="danger"
+          fill="clear"
+          (click)="removeItem(item.product.id)">
+
+          Hapus
+
+        </ion-button>
+
+      </ion-item>
+
+    }
+
+  </ion-list>
+
+
+  <!-- KERANJANG KOSONG -->
+
+  @if (cartItems.length === 0) {
+
+    <ion-card>
+
+      <ion-card-content>
+
+        Keranjang masih kosong.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+
+  <!-- TOTAL BELANJA -->
+
+  @if (cartItems.length > 0) {
+
+    <ion-card>
+
+      <ion-card-header>
+
+        <ion-card-title>
+          Total Belanja
+        </ion-card-title>
+
+      </ion-card-header>
+
+
+      <ion-card-content>
+
+        <h1>
+          Rp {{ total | number:'1.0-0' }}
+        </h1>
+
+
+        <ion-button
+          expand="block"
+          (click)="checkout()">
+
+          Konfirmasi Transaksi
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+
+  <!-- RIWAYAT TRANSAKSI -->
+
+  <ion-list>
+
+    <ion-list-header>
+
+      <ion-label>
+        Riwayat Transaksi
+      </ion-label>
+
+    </ion-list-header>
+
+
+    @for (transaction of transactions; track transaction.id) {
+
+      <ion-item
+        button
+        detail="true"
+        [routerLink]="['/tabs/transaksi-detail', transaction.id]">
+
+        <ion-label>
+
+          <h2>
+            Transaksi #{{ transaction.id }}
+          </h2>
+
+          <p>
+            {{ transaction.date | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+
+          <p>
+            Total:
+            Rp {{ transaction.total | number:'1.0-0' }}
+          </p>
+
+        </ion-label>
+
+      </ion-item>
+
+    }
+
+
+    @if (transactions.length === 0) {
+
+      <ion-item>
+
+        <ion-label>
+          Belum ada riwayat transaksi.
+        </ion-label>
+
+      </ion-item>
+
+    }
+
+  </ion-list>
+
+</ion-content>

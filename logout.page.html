@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      Logout
+    </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <div class="logout-container">
+
+    <ion-card>
+
+      <ion-card-header>
+
+        <ion-card-title>
+          Logout
+        </ion-card-title>
+
+      </ion-card-header>
+
+
+      <ion-card-content>
+
+        <div class="logout-icon">
+          🚪
+        </div>
+
+        <p>
+          Apakah kamu yakin ingin keluar dari aplikasi?
+        </p>
+
+        <ion-button
+          expand="block"
+          color="danger"
+          (click)="confirmLogout()">
+
+          Logout
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tabs/dashbord">
+
+          Batal
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+</ion-content>

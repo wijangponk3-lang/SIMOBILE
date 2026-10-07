@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/tabs/transaksi">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+      Detail Transaksi
+    </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  @if (transaction) {
+
+    <!-- INFORMASI TRANSAKSI -->
+    <ion-card>
+
+      <ion-card-header>
+
+        <ion-card-title>
+          Transaksi #{{ transaction.id }}
+        </ion-card-title>
+
+        <ion-card-subtitle>
+          {{ transaction.date | date:'dd/MM/yyyy HH:mm' }}
+        </ion-card-subtitle>
+
+      </ion-card-header>
+
+
+      <ion-card-content>
+
+        <!-- DAFTAR PRODUK -->
+        <ion-list>
+
+          <ion-list-header>
+            <ion-label>
+              Produk yang Dibeli
+            </ion-label>
+          </ion-list-header>
+
+
+          @for (item of transaction.items; track item.productId) {
+
+            <ion-item>
+
+              <ion-label>
+
+                <h2>
+                  {{ item.productName }}
+                </h2>
+
+                <p>
+                  Harga:
+                  Rp {{ item.price | number:'1.0-0' }}
+                </p>
+
+                <p>
+                  Jumlah:
+                  {{ item.quantity }}
+                </p>
+
+                <p>
+                  Subtotal:
+                  Rp {{ item.subtotal | number:'1.0-0' }}
+                </p>
+
+              </ion-label>
+
+            </ion-item>
+
+          }
+
+        </ion-list>
+
+
+        <!-- TOTAL -->
+        <div class="total-section">
+
+          <h2>
+            Total Transaksi
+          </h2>
+
+          <h1>
+            Rp {{ transaction.total | number:'1.0-0' }}
+          </h1>
+
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+
+  <!-- JIKA TRANSAKSI TIDAK DITEMUKAN -->
+  @if (!transaction) {
+
+    <ion-card>
+
+      <ion-card-content>
+
+        Transaksi tidak ditemukan.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/tabs/produk">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Detail Produk</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  @if (product) {
+
+    <ion-card>
+
+      <ion-card-header>
+
+        <ion-card-title>
+          {{ product.name }}
+        </ion-card-title>
+
+        <ion-card-subtitle>
+          {{ product.category }}
+        </ion-card-subtitle>
+
+      </ion-card-header>
+
+
+      <ion-card-content>
+
+        <!-- GAMBAR PRODUK -->
+        <ion-thumbnail class="product-image">
+
+          @if (product.image) {
+
+            <img
+              [src]="product.image"
+              alt="Gambar produk">
+
+          } @else {
+
+            <img
+              src="assets/icon/favicon.png"
+              alt="Gambar default">
+
+          }
+
+        </ion-thumbnail>
+
+
+        <!-- INFORMASI PRODUK -->
+        <div class="product-info">
+
+          <p>
+            <strong>Harga Beli</strong>
+          </p>
+
+          <p>
+            Rp {{ product.buyPrice | number:'1.0-0' }}
+          </p>
+
+
+          <p>
+            <strong>Harga Jual</strong>
+          </p>
+
+          <p>
+            Rp {{ product.sellPrice | number:'1.0-0' }}
+          </p>
+
+
+          <p>
+            <strong>Stok</strong>
+          </p>
+
+          <p>
+            {{ product.stock }}
+          </p>
+
+        </div>
+
+
+        <!-- TOMBOL TAMBAH KE KERANJANG -->
+        <ion-button
+            class="cart-button"
+            expand="block"
+          [disabled]="product.stock === 0"
+            (click)="addToCart()">
+
+            🛒 TAMBAH KE KERANJANG
+
+</ion-button>
+
+
+        <!-- TOMBOL EDIT PRODUK -->
+        <ion-button
+          expand="block"
+          fill="outline"
+          [routerLink]="['/tabs/produk-form', product.id]">
+
+          EDIT PRODUK
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+
+  <!-- JIKA PRODUK TIDAK DITEMUKAN -->
+  @if (!product) {
+
+    <ion-card>
+
+      <ion-card-content>
+
+        Produk tidak ditemukan.
+
+      </ion-card-content>
+
+    </ion-card>
+
+  }
+
+</ion-content>

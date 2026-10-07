@@ -1,0 +1,156 @@
+<ion-header>
+
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      Produk
+    </ion-title>
+
+  </ion-toolbar>
+
+
+  <!-- SEARCH -->
+  <ion-toolbar>
+
+    <ion-searchbar
+      [(ngModel)]="searchText"
+      (ionInput)="searchProduct()"
+      placeholder="Cari produk..."
+      animated="true">
+    </ion-searchbar>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <!-- ========================= -->
+  <!-- TOMBOL TAMBAH PRODUK -->
+  <!-- ========================= -->
+
+  <div class="add-product-container">
+
+    <ion-button
+      expand="block"
+      [routerLink]="['/tabs/produk-form']">
+
+      + Tambah Produk
+
+    </ion-button>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- DAFTAR PRODUK -->
+  <!-- ========================= -->
+
+  <ion-list>
+
+    <ion-list-header>
+
+      <ion-label>
+        Daftar Produk
+      </ion-label>
+
+    </ion-list-header>
+
+
+    @for (product of filteredProducts; track product.id) {
+
+      <ion-item
+        button
+        [routerLink]="['/tabs/produk-detail', product.id]"
+        detail="true">
+
+
+        <!-- GAMBAR -->
+        <ion-thumbnail slot="start">
+
+          @if (product.image) {
+
+            <img
+              [src]="product.image"
+              alt="Gambar produk">
+
+          } @else {
+
+            <img
+              src="assets/icon/favicon.png"
+              alt="Gambar default">
+
+          }
+
+        </ion-thumbnail>
+
+
+        <!-- INFORMASI PRODUK -->
+        <ion-label>
+
+          <h2>
+            {{ product.name }}
+          </h2>
+
+          <p>
+            Kategori:
+            {{ product.category }}
+          </p>
+
+          <p>
+            Harga:
+            Rp {{ product.sellPrice | number:'1.0-0' }}
+          </p>
+
+          <p>
+            Stok:
+            {{ product.stock }}
+          </p>
+
+        </ion-label>
+
+
+        <!-- TOMBOL TAMBAH KE KERANJANG -->
+        <ion-button
+          slot="end"
+          [disabled]="product.stock === 0"
+          (click)="$event.stopPropagation()">
+
+          TAMBAH
+
+        </ion-button>
+
+      </ion-item>
+
+    }
+
+
+  </ion-list>
+
+
+  <!-- ========================= -->
+  <!-- PRODUK TIDAK DITEMUKAN -->
+  <!-- ========================= -->
+
+  @if (filteredProducts.length === 0) {
+
+    <div class="empty-message">
+
+      <ion-icon
+        name="search-outline">
+      </ion-icon>
+
+      <p>
+        Produk tidak ditemukan
+      </p>
+
+    </div>
+
+  }
+
+</ion-content>
